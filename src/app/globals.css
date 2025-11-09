@@ -1,26 +1,272 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --primary-blue: #6ba8d1;
+  --secondary-blue: #8bc5e8;
+  --accent-blue: #a8d8f0;
+  --light-blue: #e8f4ff;
+  --soft-blue: #f8fbff;
+  --gold: #d4af37;
+  --light-gold: #f4e4a9;
+  --text-dark: #2c3e50;
+  --text-light: #7f8c8d;
+  --white: #ffffff;
+  --parchment: #f9f5eb;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(135deg, #f8fcff 0%, #e6f2ff 100%);
+  color: var(--text-dark);
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+}
+
+/* Rich floating animation */
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg) scale(1);
+    opacity: 0.7;
+  }
+  25% { 
+    transform: translateY(-15px) rotate(90deg) scale(1.1);
+    opacity: 0.9;
+  }
+  50% { 
+    transform: translateY(-25px) rotate(180deg) scale(1.2);
+    opacity: 1;
+  }
+  75% { 
+    transform: translateY(-15px) rotate(270deg) scale(1.1);
+    opacity: 0.9;
+  }
+}
+
+@keyframes float-slow {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+  50% { 
+    transform: translateY(-20px) rotate(180deg) scale(1.1);
+  }
+}
+
+@keyframes float-medium {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+  50% { 
+    transform: translateY(-15px) rotate(90deg) scale(1.05);
+  }
+}
+
+@keyframes float-fast {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+  50% { 
+    transform: translateY(-10px) rotate(45deg) scale(1.02);
+  }
+}
+
+.animate-float {
+  animation: float 8s infinite ease-in-out;
+}
+
+.animate-float-slow {
+  animation: float-slow 12s infinite ease-in-out;
+}
+
+.animate-float-medium {
+  animation: float-medium 10s infinite ease-in-out;
+}
+
+.animate-float-fast {
+  animation: float-fast 6s infinite ease-in-out;
+}
+
+/* Enhanced hover effects */
+.hover-lift {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.hover-lift:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+/* Gradient text animation */
+.gradient-text {
+  background: linear-gradient(45deg, var(--primary-blue), var(--accent-blue), var(--secondary-blue));
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Shine effect */
+.shine-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine-effect::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  transition: left 0.8s;
+}
+
+.shine-effect:hover::before {
+  left: 100%;
+}
+
+/* Pulse animation */
+@keyframes pulse-glow {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(107, 168, 209, 0.3);
+  }
+  50% { 
+    box-shadow: 0 0 40px rgba(107, 168, 209, 0.6);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s infinite ease-in-out;
+}
+
+/* Transform GPU acceleration */
+.transform-gpu {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--light-blue);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-blue);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-blue);
+}
+/* Active state styles untuk navbar */
+.nav-item-active {
+  color: var(--primary-blue);
+  position: relative;
+}
+
+.nav-item-active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary-blue), var(--accent-blue));
+  border-radius: 2px;
+}
+
+/* Smooth transition untuk nav items */
+.nav-link {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--primary-blue);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary-blue), var(--accent-blue));
+  transition: width 0.3s ease;
+  border-radius: 2px;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Mobile active state */
+.mobile-nav-active {
+  background: linear-gradient(135deg, var(--primary-blue)/10, var(--accent-blue)/5);
+  border-left: 3px solid var(--primary-blue);
+}
+/* Floating animations untuk about page */
+@keyframes float-slow {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+  50% { 
+    transform: translateY(-20px) rotate(180deg) scale(1.1);
+  }
+}
+
+@keyframes float-medium {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+  50% { 
+    transform: translateY(-15px) rotate(90deg) scale(1.05);
+  }
+}
+
+.animate-float-slow {
+  animation: float-slow 12s infinite ease-in-out;
+}
+
+.animate-float-medium {
+  animation: float-medium 10s infinite ease-in-out;
+}
+/* Add this to your globals.css */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
