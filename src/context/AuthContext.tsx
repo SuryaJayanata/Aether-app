@@ -9,11 +9,12 @@ interface User {
 }
 
 interface AuthContextType {
-  user: User | null
+  user: Partial<User> | null
   login: (email: string, password: string) => Promise<{ error: any }>
   logout: () => Promise<void>
   loading: boolean
 }
+
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
