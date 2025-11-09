@@ -334,7 +334,7 @@ export default function Home() {
         <footer className="text-center py-12 mt-20 border-t border-[#6ba8d1]/10 relative">
           <div className="absolute top-0 left-1/4 w-1/2 h-px bg-gradient-to-r from-transparent via-[var(--primary-blue)] to-transparent opacity-30"></div>
           <p className="text-[var(--text-light)]">
-            Aether &copy; 2023 - Where Secret Words Find Their Voice
+            Aether &copy; 2025 - Where Secret Words Find Their Voice
           </p>
           <p className="text-sm text-[var(--text-light)] mt-2">
             Send messages safely, anonymously, and freely
