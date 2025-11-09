@@ -156,6 +156,7 @@ export default function MyMessagesPage() {
                   key={message.id}
                   message={message}
                   currentSessionId={sessionId}
+                  isLiked={false}
                   onLike={handleLike}
                   onDelete={handleDelete}
                 />
