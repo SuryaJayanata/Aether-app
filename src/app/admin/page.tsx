@@ -418,7 +418,7 @@ export default function AdminPage() {
                         </td>
                         <td className="px-6 py-4">
                           <span className="text-sm text-[var(--text-dark)]">
-                            {message.to_name || 'Everyone'}
+                            {message.to_name || 'Someone'}
                           </span>
                         </td>
                         <td className="px-6 py-4">

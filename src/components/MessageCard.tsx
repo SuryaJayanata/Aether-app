@@ -31,7 +31,7 @@ interface MessageCardProps {
   onLike: (messageId: string) => void
   onDelete: (messageId: string) => void
   isLiked: boolean
-  isProcessing?: boolean  // Pastikan ini ada di interface
+  isProcessing?: boolean 
 }
 
 export default function MessageCard({ 
@@ -40,7 +40,7 @@ export default function MessageCard({
   onLike, 
   onDelete, 
   isLiked,
-  isProcessing = false  // Terima prop isProcessing dan beri default value
+  isProcessing = false 
 }: MessageCardProps) {
   const isOwner = message.session_id === currentSessionId
   const [showSpotifyPlayer, setShowSpotifyPlayer] = useState(false)
@@ -67,63 +67,63 @@ export default function MessageCard({
 
   return (
     <div className="group cursor-pointer">
-      <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-lg hover:bg-white hover:shadow-2xl hover:border-[var(--accent-blue)]/30 hover:scale-[1.02] transition-all duration-200 relative">
+      <div className="bg-white/70 backdrop-blur-sm rounded-3xl p-6 border-2 border-pink-100 shadow-lg hover:bg-white hover:shadow-2xl hover:shadow-pink-100 hover:border-pink-200 hover:scale-[1.02] transition-all duration-300 relative">
         
-        {/* Top accent line */}
-        <div className={`absolute top-0 left-0 w-full h-1 rounded-t-2xl ${
+        {/* Top accent line - Gradient Pink */}
+        <div className={`absolute top-0 left-0 w-full h-1.5 rounded-t-3xl ${
           message.likes >= 5 
-            ? 'bg-gradient-to-r from-yellow-400 to-orange-400' 
-            : 'bg-gradient-to-r from-[var(--primary-blue)] via-[var(--accent-blue)] to-[var(--primary-blue)]'
-        } opacity-70`}></div>
+            ? 'bg-gradient-to-r from-pink-500 to-red-500' 
+            : 'bg-gradient-to-r from-[var(--primary-pink)] via-[var(--accent-pink)] to-[var(--primary-pink)]'
+        } opacity-80`}></div>
         
-        {/* Popular badge */}
+        {/* Popular badge - Heart theme */}
         {message.likes >= 3 && (
-          <div className="absolute top-3 left-3 bg-yellow-400 text-yellow-900 text-xs px-2 py-1 rounded-full font-semibold">
-            🔥 {message.likes} likes
+          <div className="absolute top-3 left-3 bg-pink-100 text-pink-700 text-xs px-3 py-1 rounded-full font-semibold border border-pink-200">
+            💖 {message.likes} loves
           </div>
         )}
         
-        <div className="absolute top-4 right-4 text-[var(--accent-blue)] opacity-70">
-          {hasSpotify ? <Music className="w-5 h-5" /> : '✦'}
+        {/* Spotify icon or small heart */}
+        <div className="absolute top-4 right-4 text-[var(--accent-pink)] opacity-60">
+          {hasSpotify ? <Music className="w-5 h-5" /> : '♥'}
         </div>
       
-        {/* Badge */}
+        {/* Badge To: */}
         {message.to_name && (
-          <div className="bg-gradient-to-r from-[var(--light-blue)] to-[#d4e7ff] rounded-xl px-3 py-1 inline-block mb-4 text-sm font-semibold font-cinzel border border-[#8bc5e8]/30 shadow-sm">
+          <div className="bg-gradient-to-r from-[var(--light-pink)] to-pink-50 rounded-full px-4 py-1.5 inline-block mb-4 text-sm font-semibold text-pink-900 border border-pink-100 shadow-sm">
             To: {message.to_name}
           </div>
         )}
       
-        {/* Message Content */}
-        <div className="text-xl italic text-center my-6 text-[var(--text-dark)] leading-relaxed relative px-2">
-          <span className="absolute -top-3 -left-2 text-3xl text-[var(--accent-blue)] opacity-30">&ldquo;</span>
+        {/* Message Content - Romantis */}
+        <div className="text-xl italic text-center my-6 text-[var(--text-dark)] leading-relaxed relative px-4">
+          <span className="absolute -top-3 left-1 text-4xl text-pink-300 opacity-50 font-serif">“</span>
           {message.message}
-          <span className="absolute -bottom-4 -right-2 text-3xl text-[var(--accent-blue)] opacity-30">&rdquo;</span>
+          <span className="absolute -bottom-6 right-1 text-4xl text-pink-300 opacity-50 font-serif">”</span>
         </div>
 
-        {/* Spotify Section */}
+        {/* Spotify Section - Pink theme */}
         {hasSpotify && message.spotify_data && (
-          <div className="my-4">
-            {/* Song Info */}
+          <div className="my-5">
             <div 
-              className="flex items-center justify-between p-3 bg-gradient-to-r from-[var(--light-blue)]/30 to-blue-50/30 rounded-xl border border-[var(--accent-blue)]/20 cursor-pointer hover:bg-[var(--light-blue)]/50 transition-colors"
+              className="flex items-center justify-between p-3 bg-pink-50/50 rounded-2xl border border-pink-100 cursor-pointer hover:bg-pink-100/50 transition-colors"
               onClick={() => setShowSpotifyPlayer(!showSpotifyPlayer)}
             >
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-[var(--primary-blue)] rounded-lg flex items-center justify-center">
-                  <Music className="w-5 h-5 text-white" />
+                <div className="w-12 h-12 bg-gradient-to-br from-pink-500 to-pink-600 rounded-xl flex items-center justify-center">
+                  <Music className="w-6 h-6 text-white" />
                 </div>
                 <div>
                   <div className="font-semibold text-sm text-[var(--text-dark)]">
                     {message.spotify_data.track_name}
                   </div>
-                  <div className="text-xs text-[var(--text-light)]">
+                  <div className="text-xs text-gray-600">
                     {message.spotify_data.artist_name}
                   </div>
                 </div>
               </div>
-              <div className="text-xs text-[var(--accent-blue)] font-medium">
-                {showSpotifyPlayer ? 'Hide' : 'Play'} 🎵
+              <div className="text-xs text-pink-600 font-medium">
+                {showSpotifyPlayer ? 'Hide' : 'Listen'} 🎧
               </div>
             </div>
 
@@ -131,41 +131,37 @@ export default function MessageCard({
             {showSpotifyPlayer && (
               <div className="mt-3 animate-fadeIn">
                 <iframe
-                  src={`https://open.spotify.com/embed/track/${message.spotify_data.track_id}`}
+                  // Perbaikan src: URL yang benar
+                  src={`https://open.spotify.com/embed/track/${message.spotify_data.track_id}?utm_source=generator`}
                   width="100%"
                   height="80"
                   frameBorder="0"
-                  allow="encrypted-media"
-                  className="rounded-lg shadow-sm"
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                  className="rounded-xl shadow-inner"
                 />
-                {message.spotify_data.is_auto_refren && (
-                  <div className="text-xs text-[var(--accent-blue)] text-center mt-2">
-                    ✨ Auto-refren section
-                  </div>
-                )}
               </div>
             )}
           </div>
         )}
       
         {/* Footer */}
-        <div className="flex justify-between items-center pt-4 border-t border-dashed border-[#8bc5e8]/30">
+        <div className="flex justify-between items-center pt-4 border-t border-dashed border-pink-200">
           <div className="flex items-center space-x-3">
             <button
               onClick={() => onLike(message.id)}
               disabled={isProcessing}
-              className={`flex items-center space-x-1 px-3 py-2 rounded-lg transition-all ${
+              className={`flex items-center space-x-1.5 px-4 py-2 rounded-full transition-all duration-300 ${
                 isLiked
-                  ? 'bg-red-100 text-red-600 border border-red-200 hover:bg-red-200'
-                  : 'bg-[#e8f4ff]/50 hover:bg-[#e8f4ff] hover:shadow-sm text-red-400'
+                  ? 'bg-pink-500 text-white shadow-md'
+                  : 'bg-pink-100 text-pink-600 hover:bg-pink-200 hover:shadow-sm'
               } ${isProcessing ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
               {isProcessing ? (
-                <div className="w-4 h-4 border-2 border-red-400 border-t-transparent rounded-full animate-spin" />
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
               ) : (
-                <Heart className={`w-4 h-4 ${isLiked ? 'fill-red-500 text-red-500' : ''}`} />
+                <Heart className={`w-4 h-4 ${isLiked ? 'fill-white' : ''}`} />
               )}
-              <span className={`text-sm font-medium ${isLiked ? 'text-red-600' : ''}`}>
+              <span className={`text-sm font-semibold`}>
                 {message.likes}
               </span>
             </button>
@@ -173,7 +169,7 @@ export default function MessageCard({
             {isOwner && (
               <button
                 onClick={handleDeleteClick}
-                className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-50 rounded-lg transition-all duration-300"
+                className="p-2.5 text-gray-400 hover:text-pink-500 hover:bg-pink-50 rounded-full transition-all duration-300"
                 title="Delete message"
               >
                 <Trash2 className="w-4 h-4" />
@@ -182,10 +178,10 @@ export default function MessageCard({
           </div>
           
           <div className="text-right">
-            <div className="text-sm text-[var(--text-light)] bg-[#e8f4ff]/50 px-3 py-1 rounded-lg">
-              From: {message.from_name || 'Anonymous'}
+            <div className="text-sm font-medium text-pink-900 bg-pink-50 px-3 py-1 rounded-full">
+              From: {message.from_name || 'Someone'}
             </div>
-            <div className="text-xs text-[var(--text-light)] mt-1">{timeAgo}</div>
+            <div className="text-xs text-gray-500 mt-1">{timeAgo}</div>
           </div>
         </div>
       </div>

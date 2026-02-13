@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
 import MessageCard from '@/components/MessageCard'
 import { supabase } from '@/lib/supabaseClient'
+import { Heart, MailOpen, Sparkles } from 'lucide-react'
 
 interface Message {
   id: string
@@ -35,10 +36,10 @@ export default function Home() {
     
     const getSessionId = () => {
       if (typeof window !== 'undefined') {
-        let sessionId = localStorage.getItem('aether_session_id')
+        let sessionId = localStorage.getItem('valentine_session_id')
         if (!sessionId) {
           sessionId = crypto.randomUUID()
-          localStorage.setItem('aether_session_id', sessionId)
+          localStorage.setItem('valentine_session_id', sessionId)
         }
         setSessionId(sessionId)
         return sessionId
@@ -73,7 +74,7 @@ export default function Home() {
           if (likesError) {
             console.warn('Likes table might not exist, using localStorage fallback')
             setLikesTableExists(false)
-            const savedLikes = localStorage.getItem(`aether_likes_${sessionId}`)
+            const savedLikes = localStorage.getItem(`valentine_likes_${sessionId}`)
             likedMessageIds = savedLikes ? JSON.parse(savedLikes) : []
           } else {
             likedMessageIds = likesData?.map(like => like.message_id) || []
@@ -81,7 +82,7 @@ export default function Home() {
         } catch (error) {
           console.warn('Failed to fetch likes, using localStorage')
           setLikesTableExists(false)
-          const savedLikes = localStorage.getItem(`aether_likes_${sessionId}`)
+          const savedLikes = localStorage.getItem(`valentine_likes_${sessionId}`)
           likedMessageIds = savedLikes ? JSON.parse(savedLikes) : []
         }
 
@@ -173,7 +174,7 @@ export default function Home() {
       } else {
         currentUserLikes.add(messageId)
       }
-      localStorage.setItem(`aether_likes_${sessionId}`, JSON.stringify([...currentUserLikes]))
+      localStorage.setItem(`valentine_likes_${sessionId}`, JSON.stringify([...currentUserLikes]))
 
     } catch (error) {
       console.error('Like operation failed:', error)
@@ -188,7 +189,7 @@ export default function Home() {
   }
 
   const handleDelete = async (messageId: string) => {
-    if (!confirm('Are you sure you want to delete this message?')) return
+    if (!confirm('Are you sure you want to delete this secret love note?')) return
 
     try {
       const { error } = await supabase
@@ -229,21 +230,21 @@ export default function Home() {
   const sortedMessages = getSortedMessages()
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
-      {/* Background Blobs dengan animasi kaya */}
+    <div className="min-h-screen relative overflow-hidden bg-rose-50 text-gray-900">
+      {/* Background Blobs - Disesuaikan ke Pink/Red lembut */}
       <div className="fixed inset-0 -z-10">
-        <div className="absolute -top-24 -left-24 w-96 h-96 bg-[#6ba8d1]/5 rounded-full blur-3xl animate-float-slow"></div>
-        <div className="absolute -bottom-24 -right-24 w-80 h-80 bg-[#a8d8f0]/8 rounded-full blur-3xl animate-float-medium"></div>
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-[var(--gold)]/3 rounded-full blur-3xl animate-float-fast"></div>
+        <div className="absolute -top-40 -left-40 w-96 h-96 bg-pink-200 rounded-full blur-3xl opacity-40 animate-float-slow"></div>
+        <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-red-200 rounded-full blur-3xl opacity-30 animate-float-medium"></div>
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-80 h-80 bg-rose-200 rounded-full blur-3xl opacity-20 animate-float-fast"></div>
       </div>
 
-      {/* Floating Particles yang lebih banyak */}
+      {/* Floating Particles - Disesuaikan ke Pink/Red */}
       {isClient && (
         <div className="fixed inset-0 -z-10 pointer-events-none">
-          {[...Array(12)].map((_, i) => (
+          {[...Array(20)].map((_, i) => (
             <div
               key={i}
-              className="absolute w-2 h-2 bg-[var(--accent-blue)]/60 rounded-full shadow-lg animate-float"
+              className="absolute w-1.5 h-1.5 bg-pink-400/50 rounded-full shadow-lg animate-float"
               style={{
                 top: `${Math.random() * 100}%`,
                 left: `${Math.random() * 100}%`,
@@ -255,64 +256,60 @@ export default function Home() {
         </div>
       )}
 
-      <div className="container mx-auto px-4 max-w-6xl">
+      <div className="container mx-auto px-4 max-w-7xl">
         <Navbar />
+        {/* Asumsi Hero Component juga perlu disesuaikan warnanya ke tema Valentine */}
         <Hero />
         
-        {/* Messages Grid */}
+        {/* Messages Grid - Valentine Theme */}
         <section className="my-20">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
-            <h2 className="font-cinzel text-3xl font-bold text-[var(--text-dark)] mb-4 md:mb-0">
-              Public Whispers
-            </h2>
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-10 gap-6">
+            <div className="flex items-center gap-3">
+              <Heart className="w-8 h-8 text-red-500 fill-red-400" />
+              <h2 className="font-cinzel text-4xl font-bold text-gray-950 tracking-tight">
+                Valentine's Love Notes
+              </h2>
+            </div>
             
-            {/* Sorting Options */}
-            <div className="flex items-center space-x-4">
-              <span className="text-sm text-[var(--text-light)]">Sort by:</span>
-              <div className="flex bg-white/50 backdrop-blur-sm rounded-lg p-1 border border-white/30">
-                {[
-                  { value: 'newest' as SortOption, label: 'Newest' },
-                  { value: 'popular' as SortOption, label: 'Popular' },
-                  { value: 'oldest' as SortOption, label: 'Oldest' }
-                ].map((option) => (
-                  <button
-                    key={option.value}
-                    onClick={() => setSortBy(option.value)}
-                    className={`px-3 py-1 rounded-md text-sm font-medium transition-all duration-300 ${
-                      sortBy === option.value
-                        ? 'bg-[var(--primary-blue)] text-white shadow-sm'
-                        : 'text-[var(--text-light)] hover:text-[var(--text-dark)] hover:bg-white/60'
-                    }`}
-                  >
-                    {option.label}
-                  </button>
-                ))}
-              </div>
+            {/* Sorting Options - Disesuaikan ke Pink/Red */}
+            <div className="flex items-center space-x-3 bg-white/60 backdrop-blur-sm rounded-full p-1.5 border border-pink-100 shadow-inner">
+              {[
+                { value: 'newest' as SortOption, label: 'Newest' },
+                { value: 'popular' as SortOption, label: 'Popular' },
+                { value: 'oldest' as SortOption, label: 'Oldest' }
+              ].map((option) => (
+                <button
+                  key={option.value}
+                  onClick={() => setSortBy(option.value)}
+                  className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
+                    sortBy === option.value
+                      ? 'bg-pink-500 text-white shadow-lg'
+                      : 'text-gray-600 hover:text-red-600 hover:bg-pink-50'
+                  }`}
+                >
+                  {option.label}
+                </button>
+              ))}
             </div>
           </div>
           
           {loading ? (
-            <div className="text-center py-12">
-              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--primary-blue)]"></div>
-              <p className="mt-4 text-[var(--text-light)]">Loading messages...</p>
+            <div className="text-center py-20">
+              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-red-500"></div>
+              <p className="mt-4 text-gray-600 font-medium">Opening love letters...</p>
             </div>
           ) : sortedMessages.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-xl text-[var(--text-light)] italic mb-8">
-                No messages yet. Be the first to share your thoughts...
+            <div className="text-center py-20 bg-white/40 backdrop-blur-sm rounded-3xl border border-pink-100">
+              <MailOpen className="w-16 h-16 text-pink-300 mx-auto mb-6" />
+              <p className="text-2xl text-gray-700 font-semibold mb-2">
+                No love notes yet.
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-                {[1, 2, 3].map((i) => (
-                  <div key={i} className="bg-white/50 backdrop-blur-sm rounded-2xl p-6 border border-white/30 shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105">
-                    <div className="text-lg italic text-gray-500 mb-4">
-                      "Your message could appear here..."
-                    </div>
-                    <div className="text-sm text-gray-400 text-right">
-                      From: Anonymous
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <p className="text-gray-500 mb-8">
+                Be the first to share your heart...
+              </p>
+              <a href="/write" className="bg-gradient-to-r from-red-500 to-pink-500 text-white px-8 py-3 rounded-full font-semibold hover:scale-105 transition-transform">
+                Write a Note
+              </a>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -331,13 +328,17 @@ export default function Home() {
           )}
         </section>
 
-        <footer className="text-center py-12 mt-20 border-t border-[#6ba8d1]/10 relative">
-          <div className="absolute top-0 left-1/4 w-1/2 h-px bg-gradient-to-r from-transparent via-[var(--primary-blue)] to-transparent opacity-30"></div>
-          <p className="text-[var(--text-light)]">
-            Aether &copy; 2025 - Where Secret Words Find Their Voice
+        {/* Footer - Valentine Theme */}
+        <footer className="text-center py-16 mt-20 border-t border-pink-100 relative">
+          <Sparkles className="w-10 h-10 text-red-300 mx-auto mb-4 opacity-50" />
+          <p className="text-gray-900 font-bold text-lg">
+            Valentine's Secret Box
           </p>
-          <p className="text-sm text-[var(--text-light)] mt-2">
-            Send messages safely, anonymously, and freely
+          <p className="text-sm text-gray-600 mt-2">
+            Spreading love and hidden messages freely
+          </p>
+          <p className="text-xs text-gray-400 mt-6">
+            &copy; 2025 Aether Inc.
           </p>
         </footer>
       </div>

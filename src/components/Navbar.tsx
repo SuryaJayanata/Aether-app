@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Heart } from 'lucide-react'
 
 // SVG Icons Components
 const AboutIcon = () => (
@@ -20,10 +21,9 @@ const WriteIcon = () => (
 
 const MessagesIcon = () => (
   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 012 2h-5l-5 5v-5z" />
   </svg>
 )
-
 
 const CloseIcon = () => (
   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -41,8 +41,8 @@ export default function Navbar() {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
   const pathname = usePathname()
 
+  // Navigation Items - English
   const navItems = [
-
     { 
       name: 'About', 
       href: '/about', 
@@ -63,7 +63,6 @@ export default function Navbar() {
     },
   ]
 
-  // Check if current page is active
   const isActive = (href: string) => {
     if (href === '/') {
       return pathname === '/'
@@ -73,34 +72,44 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="flex justify-between items-center py-5 relative">
-        <Link href="/" className="font-cinzel text-5xl font-bold text-[var(--primary-blue)] relative inline-block group">
-          Aether
-          <div className="absolute bottom-[-5px] left-0 w-0 h-0.5 bg-gradient-to-r from-[var(--primary-blue)] to-[var(--accent-blue)] group-hover:w-full transition-all duration-500 ease-out"></div>
-          <div className="absolute -bottom-1 left-0 w-full h-px bg-[var(--accent-blue)] opacity-30"></div>
+      {/* Compact Navbar: Added 'py-3' instead of 'py-5' */}
+      <header className="flex justify-between items-center py-3 relative border-b border-pink-100 mb-8">
+        
+        {/* Logo, Valentine Edition, and Heart */}
+        <Link href="/" className="flex flex-col group relative">
+          <div className="flex items-center gap-1">
+            <span className="font-cinzel text-4xl font-bold text-pink-700 tracking-tighter">
+              Aether
+            </span>
+            <Heart className="w-5 h-5 text-red-500 fill-red-500 rotate-12" />
+          </div>
+          <span className="text-[10px] font-semibold text-pink-600 tracking-widest uppercase ml-1 mt-0">
+            Valentine Edition
+          </span>
+          <div className="absolute bottom-[-5px] left-0 w-0 h-0.5 bg-gradient-to-r from-pink-500 to-red-400 group-hover:w-full transition-all duration-500 ease-out"></div>
         </Link>
         
-        {/* Desktop Navigation dengan underline hover dan active state */}
+        {/* Desktop Navigation - font-sans for clean look, text-lg for smaller size */}
         <nav className="hidden md:block">
-          <ul className="flex space-x-10">
-            {navItems.filter(item => item.name !== 'Home').map((item) => {
+          <ul className="flex space-x-6">
+            {navItems.map((item) => {
               const active = isActive(item.href)
               return (
                 <li key={item.name}>
                   <Link 
                     href={item.href}
-                    className={`text-xl font-semibold relative py-2 transition-all duration-300 ${
+                    className={`text-lg font-medium relative py-1 transition-all duration-300 font-sans ${
                       active 
-                        ? 'text-[var(--primary-blue)]' 
-                        : 'text-[var(--text-dark)] hover:text-[var(--primary-blue)]'
+                        ? 'text-pink-600' 
+                        : 'text-gray-800 hover:text-pink-500'
                     }`}
                   >
                     {item.name}
                     
-                    {/* Active underline - selalu tampil jika active */}
+                    {/* Active underline - Valentine Red */}
                     {active && (
                       <motion.div 
-                        className="absolute bottom-0 left-0 w-full h-0.5 bg-[var(--primary-blue)] rounded"
+                        className="absolute bottom-0 left-0 w-full h-0.5 bg-red-400 rounded"
                         layoutId="navbar-underline"
                         transition={{
                           type: "spring",
@@ -110,9 +119,9 @@ export default function Navbar() {
                       />
                     )}
                     
-                    {/* Hover underline - hanya tampil saat hover dan tidak active */}
+                    {/* Hover underline - Valentine Gradient */}
                     {!active && (
-                      <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[var(--primary-blue)] to-[var(--accent-blue)] transition-all duration-300 hover:w-full rounded"></div>
+                      <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-pink-400 to-red-400 transition-all duration-300 hover:w-full rounded"></div>
                     )}
                   </Link>
                 </li>
@@ -121,24 +130,23 @@ export default function Navbar() {
           </ul>
         </nav>
 
-        {/* Mobile Navigation Toggle */}
+        {/* Mobile Navigation Toggle - Compact size */}
         <button 
-          className="md:hidden flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-[var(--primary-blue)] to-[var(--accent-blue)] shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl group"
+          className="md:hidden flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-pink-500 to-red-500 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl group"
           onClick={() => setIsMobileNavOpen(true)}
         >
           <div className="flex flex-col items-center justify-center space-y-1">
-            <div className="w-6 h-0.5 bg-white transition-all duration-300 group-hover:rotate-45 group-hover:translate-y-1.5"></div>
-            <div className="w-6 h-0.5 bg-white transition-all duration-300 group-hover:opacity-0"></div>
-            <div className="w-6 h-0.5 bg-white transition-all duration-300 group-hover:-rotate-45 group-hover:-translate-y-1.5"></div>
+            <div className="w-5 h-0.5 bg-white transition-all duration-300 group-hover:rotate-45 group-hover:translate-y-1.5"></div>
+            <div className="w-5 h-0.5 bg-white transition-all duration-300 group-hover:opacity-0"></div>
+            <div className="w-5 h-0.5 bg-white transition-all duration-300 group-hover:-rotate-45 group-hover:-translate-y-1.5"></div>
           </div>
         </button>
       </header>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Navigation - Remains the same, updated text */}
       <AnimatePresence>
         {isMobileNavOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -147,7 +155,6 @@ export default function Navbar() {
               onClick={() => setIsMobileNavOpen(false)}
             />
             
-            {/* Navigation Panel */}
             <motion.nav
               initial={{ x: '100%', opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
@@ -157,28 +164,34 @@ export default function Navbar() {
                 damping: 25,
                 stiffness: 200
               }}
-              className="fixed top-0 right-0 w-80 h-full bg-gradient-to-br from-white via-[var(--soft-blue)] to-[var(--light-blue)] shadow-2xl z-50 md:hidden flex flex-col"
+              className="fixed top-0 right-0 w-72 h-full bg-gradient-to-br from-white via-rose-50 to-pink-100 shadow-2xl z-50 md:hidden flex flex-col"
             >
               {/* Header */}
-              <div className="p-6 border-b border-[var(--accent-blue)]/20">
+              <div className="p-5 border-b border-pink-200">
                 <div className="flex items-center justify-between">
-                  <div className="font-cinzel text-4xl font-bold text-[var(--primary-blue)]">
-                    Aether
+                  <div className="flex flex-col">
+                    <div className="font-cinzel text-3xl font-bold text-pink-700 flex items-center gap-2">
+                      Aether
+                      <Heart className="w-5 h-5 text-red-500 fill-red-500" />
+                    </div>
+                    <span className="text-[10px] font-semibold text-pink-600 tracking-widest uppercase ml-1">
+                      Valentine Edition
+                    </span>
                   </div>
                   <button 
-                    className="w-10 h-10 rounded-full bg-[var(--light-blue)] flex items-center justify-center hover:bg-[var(--primary-blue)] hover:text-white transition-all duration-300"
+                    className="w-9 h-9 rounded-full bg-pink-100 flex items-center justify-center hover:bg-red-400 hover:text-white transition-all duration-300"
                     onClick={() => setIsMobileNavOpen(false)}
                   >
                     <CloseIcon />
                   </button>
                 </div>
-                <p className="text-sm text-[var(--text-light)] mt-2">
-                  Where words find their meaning
+                <p className="text-sm text-pink-600 mt-2">
+                  Sending love through the ether
                 </p>
               </div>
 
               {/* Navigation Items */}
-              <div className="flex-1 p-6 space-y-4">
+              <div className="flex-1 p-5 space-y-3">
                 {navItems.map((item, index) => {
                   const active = isActive(item.href)
                   return (
@@ -190,45 +203,45 @@ export default function Navbar() {
                     >
                       <Link 
                         href={item.href}
-                        className={`flex items-center p-4 rounded-2xl border transition-all duration-300 group relative ${
+                        className={`flex items-center p-3 rounded-xl border transition-all duration-300 group relative ${
                           active
-                            ? 'bg-[var(--primary-blue)]/10 border-[var(--primary-blue)]/30 shadow-md'
+                            ? 'bg-pink-100 border-pink-300 shadow-md'
                             : 'bg-white/70 border-white/50 hover:bg-white/90 hover:shadow-md'
                         }`}
                         onClick={() => setIsMobileNavOpen(false)}
                       >
-                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center mr-4 transition-all duration-300 ${
+                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center mr-4 transition-all duration-300 ${
                           active
-                            ? 'bg-[var(--primary-blue)] text-white scale-110'
-                            : 'bg-gradient-to-br from-[var(--primary-blue)] to-[var(--accent-blue)] text-white group-hover:scale-110'
+                            ? 'bg-red-500 text-white scale-105'
+                            : 'bg-gradient-to-br from-pink-400 to-red-400 text-white group-hover:scale-105'
                         }`}>
                           {item.icon}
                         </div>
                         <div className="flex-1">
                           <div className={`font-semibold transition-colors duration-300 ${
                             active
-                              ? 'text-[var(--primary-blue)]'
-                              : 'text-[var(--text-dark)] group-hover:text-[var(--primary-blue)]'
+                              ? 'text-red-700'
+                              : 'text-gray-800 group-hover:text-red-600'
                           }`}>
                             {item.name}
                             {active && (
-                              <span className="ml-2 text-xs bg-[var(--primary-blue)] text-white px-2 py-1 rounded-full">
+                              <span className="ml-2 text-xs bg-red-400 text-white px-2 py-0.5 rounded-full">
                                 Active
                               </span>
                             )}
                           </div>
-                          <div className={`text-sm transition-colors duration-300 ${
+                          <div className={`text-xs transition-colors duration-300 ${
                             active
-                              ? 'text-[var(--primary-blue)]/80'
-                              : 'text-[var(--text-light)]'
+                              ? 'text-pink-700'
+                              : 'text-gray-500'
                           }`}>
                             {item.desc}
                           </div>
                         </div>
                         <div className={`transition-all duration-300 ${
                           active
-                            ? 'text-[var(--primary-blue)] opacity-100'
-                            : 'text-[var(--accent-blue)] opacity-0 group-hover:opacity-100'
+                            ? 'text-red-500 opacity-100'
+                            : 'text-pink-400 opacity-0 group-hover:opacity-100'
                         }`}>
                           <ChevronIcon />
                         </div>
@@ -239,20 +252,20 @@ export default function Navbar() {
               </div>
 
               {/* Footer */}
-              <div className="p-6 border-t border-[var(--accent-blue)]/20">
+              <div className="p-5 border-t border-pink-200">
                 <div className="text-center">
-                  <div className="font-cinzel text-lg text-[var(--primary-blue)] mb-2">
+                  <div className="font-cinzel text-lg text-pink-700 mb-1">
                     Aether
                   </div>
-                  <p className="text-xs text-[var(--text-light)]">
-                    Where secret words find their voice
+                  <p className="text-xs text-pink-600">
+                    Made with 💖 for special moments
                   </p>
                 </div>
               </div>
 
               {/* Decorative Elements */}
-              <div className="absolute top-1/4 -left-4 w-8 h-8 bg-[var(--accent-blue)] rounded-full opacity-20 blur-sm"></div>
-              <div className="absolute bottom-1/3 -left-2 w-4 h-4 bg-[var(--primary-blue)] rounded-full opacity-30 blur-sm"></div>
+              <div className="absolute top-1/4 -left-4 w-8 h-8 bg-red-200 rounded-full opacity-30 blur-sm"></div>
+              <div className="absolute bottom-1/3 -left-2 w-4 h-4 bg-pink-200 rounded-full opacity-40 blur-sm"></div>
             </motion.nav>
           </>
         )}

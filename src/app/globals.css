@@ -3,17 +3,17 @@
 @tailwind utilities;
 
 :root {
-  --primary-blue: #6ba8d1;
-  --secondary-blue: #8bc5e8;
-  --accent-blue: #a8d8f0;
-  --light-blue: #e8f4ff;
-  --soft-blue: #f8fbff;
+  --primary-blue: #ff758c;   /* Diubah dari biru ke pink cerah */
+  --secondary-blue: #ff9a9e; /* Diubah dari biru ke pink lembut */
+  --accent-blue: #ffcad4;    /* Diubah dari biru ke pink pastel */
+  --light-blue: #fff0f3;     /* Diubah dari biru ke pink sangat muda */
+  --soft-blue: #fff5f7;      /* Diubah dari biru ke pink background */
   --gold: #d4af37;
   --light-gold: #f4e4a9;
-  --text-dark: #2c3e50;
-  --text-light: #7f8c8d;
+  --text-dark: #5a3d45;      /* Diubah ke coklat keunguan agar senada */
+  --text-light: #8d7b80;     /* Diubah ke abu-abu pinkish */
   --white: #ffffff;
-  --parchment: #f9f5eb;
+  --parchment: #fffaf0;      /* Diubah ke krem lembut */
 }
 
 * {
@@ -23,7 +23,7 @@
 }
 
 body {
-  background: linear-gradient(135deg, #f8fcff 0%, #e6f2ff 100%);
+  background: linear-gradient(135deg, #fff5f7 0%, #ffeaf0 100%); /* Diubah ke gradient pink */
   color: var(--text-dark);
   min-height: 100vh;
   overflow-x: hidden;
@@ -100,7 +100,7 @@ body {
 
 .hover-lift:hover {
   transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 25px 50px rgba(255, 117, 140, 0.15); /* Shadow disesuaikan ke pink */
 }
 
 /* Gradient text animation */
@@ -142,10 +142,10 @@ body {
 /* Pulse animation */
 @keyframes pulse-glow {
   0%, 100% { 
-    box-shadow: 0 0 20px rgba(107, 168, 209, 0.3);
+    box-shadow: 0 0 20px rgba(255, 117, 140, 0.3); /* Glow disesuaikan ke pink */
   }
   50% { 
-    box-shadow: 0 0 40px rgba(107, 168, 209, 0.6);
+    box-shadow: 0 0 40px rgba(255, 117, 140, 0.6); /* Glow disesuaikan ke pink */
   }
 }
 
@@ -227,7 +227,7 @@ html {
 
 /* Mobile active state */
 .mobile-nav-active {
-  background: linear-gradient(135deg, var(--primary-blue)/10, var(--accent-blue)/5);
+  background: linear-gradient(135deg, rgba(255, 117, 140, 0.1), rgba(255, 202, 212, 0.05)); /* Warna mobile active disesuaikan */
   border-left: 3px solid var(--primary-blue);
 }
 /* Floating animations untuk about page */
