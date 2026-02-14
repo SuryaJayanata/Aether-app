@@ -163,8 +163,12 @@ export default function WritePage() {
                     value={formData.from_name}
                     onChange={(e) => setFormData({ ...formData, from_name: e.target.value })}
                     className="w-full p-4 border border-rose-100 rounded-2xl bg-white focus:outline-none focus:ring-2 focus:ring-pink-200 transition-all"
-                    placeholder="Your Name"
+                    placeholder="Your Name..."
                   />
+                  <label className="block font-semibold pt-2 mb-2 text-[var(--text-dark)] text-sm opacity-60">
+                    Leave it empty to make it anonymous
+                  </label>
+
                   <div className="flex items-center mt-3">
                     <input
                       type="checkbox"
@@ -186,8 +190,11 @@ export default function WritePage() {
                     value={formData.to_name}
                     onChange={(e) => setFormData({ ...formData, to_name: e.target.value })}
                     className="w-full p-4 border border-rose-100 rounded-2xl bg-white focus:outline-none focus:ring-2 focus:ring-pink-200 transition-all"
-                    placeholder="Their Name"
+                    placeholder="Their Name..."
                   />
+                  <label className="block font-semibold pt-2 mb-2 text-[var(--text-dark)] text-sm opacity-60">
+                    Leave it empty if u don't have someone in mind :3
+                  </label>
                 </div>
               </div>
             </div>

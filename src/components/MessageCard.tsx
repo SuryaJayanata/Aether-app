@@ -45,18 +45,29 @@ export default function MessageCard({
   const isOwner = message.session_id === currentSessionId
   const [showSpotifyPlayer, setShowSpotifyPlayer] = useState(false)
   
+  // --- FUNGSI formatDate YANG SUDAH DIPERBARUI ---
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
     const now = new Date()
     const diffTime = Math.abs(now.getTime() - date.getTime())
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+    const diffHours = Math.floor(diffTime / (1000 * 60 * 60))
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
+
+    if (diffHours < 24) {
+      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    }
     
-    if (diffDays === 1) return '1 day ago'
-    if (diffDays < 7) return `${diffDays} days ago`
-    if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`
+    if (diffDays < 7) {
+      return `${diffDays} day${diffDays === 1 ? '' : 's'} ago`
+    }
     
-    return date.toLocaleDateString()
+    return date.toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'short', 
+      day: 'numeric' 
+    })
   }
+  // ------------------------------------------------
 
   const handleDeleteClick = () => {
     onDelete(message.id)
@@ -69,40 +80,26 @@ export default function MessageCard({
     <div className="group cursor-pointer">
       <div className="bg-white/70 backdrop-blur-sm rounded-3xl p-6 border-2 border-pink-100 shadow-lg hover:bg-white hover:shadow-2xl hover:shadow-pink-100 hover:border-pink-200 hover:scale-[1.02] transition-all duration-300 relative">
         
-        {/* Top accent line - Gradient Pink */}
-        <div className={`absolute top-0 left-0 w-full h-1.5 rounded-t-3xl ${
-          message.likes >= 5 
-            ? 'bg-gradient-to-r from-pink-500 to-red-500' 
-            : 'bg-gradient-to-r from-[var(--primary-pink)] via-[var(--accent-pink)] to-[var(--primary-pink)]'
-        } opacity-80`}></div>
+
         
-        {/* Popular badge - Heart theme */}
-        {message.likes >= 3 && (
-          <div className="absolute top-3 left-3 bg-pink-100 text-pink-700 text-xs px-3 py-1 rounded-full font-semibold border border-pink-200">
-            💖 {message.likes} loves
-          </div>
-        )}
+
         
-        {/* Spotify icon or small heart */}
         <div className="absolute top-4 right-4 text-[var(--accent-pink)] opacity-60">
           {hasSpotify ? <Music className="w-5 h-5" /> : '♥'}
         </div>
       
-        {/* Badge To: */}
         {message.to_name && (
           <div className="bg-gradient-to-r from-[var(--light-pink)] to-pink-50 rounded-full px-4 py-1.5 inline-block mb-4 text-sm font-semibold text-pink-900 border border-pink-100 shadow-sm">
             To: {message.to_name}
           </div>
         )}
       
-        {/* Message Content - Romantis */}
         <div className="text-xl italic text-center my-6 text-[var(--text-dark)] leading-relaxed relative px-4">
           <span className="absolute -top-3 left-1 text-4xl text-pink-300 opacity-50 font-serif">“</span>
           {message.message}
           <span className="absolute -bottom-6 right-1 text-4xl text-pink-300 opacity-50 font-serif">”</span>
         </div>
 
-        {/* Spotify Section - Pink theme */}
         {hasSpotify && message.spotify_data && (
           <div className="my-5">
             <div 
@@ -127,14 +124,12 @@ export default function MessageCard({
               </div>
             </div>
 
-            {/* Spotify Embed Player */}
             {showSpotifyPlayer && (
               <div className="mt-3 animate-fadeIn">
                 <iframe
-                  // Perbaikan src: URL yang benar
                   src={`https://open.spotify.com/embed/track/${message.spotify_data.track_id}?utm_source=generator`}
                   width="100%"
-                  height="80"
+                  height="100"
                   frameBorder="0"
                   allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                   className="rounded-xl shadow-inner"
@@ -144,7 +139,6 @@ export default function MessageCard({
           </div>
         )}
       
-        {/* Footer */}
         <div className="flex justify-between items-center pt-4 border-t border-dashed border-pink-200">
           <div className="flex items-center space-x-3">
             <button
@@ -181,6 +175,7 @@ export default function MessageCard({
             <div className="text-sm font-medium text-pink-900 bg-pink-50 px-3 py-1 rounded-full">
               From: {message.from_name || 'Someone'}
             </div>
+            {/* Tampilan waktu/tanggal di sini */}
             <div className="text-xs text-gray-500 mt-1">{timeAgo}</div>
           </div>
         </div>

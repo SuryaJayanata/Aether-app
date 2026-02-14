@@ -13,10 +13,15 @@ const cinzel = Cinzel({
   variable: '--font-cinzel'
 })
 
-export const metadata: Metadata = {
-  title: 'Aether - Where Words Float and Find Meaning',
-  description: 'Share your deepest thoughts, confessions, and messages anonymously',
+export const metadata = {
+  title: 'Aether',
+  description: 'Where Words Float and Find Meaning',
+  icons: {
+    icon: '/Logo.png',
+  },
 }
+
+
 
 export default function RootLayout({
   children,

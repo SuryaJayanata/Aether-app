@@ -332,7 +332,7 @@ export default function Home() {
         <footer className="text-center py-16 mt-20 border-t border-pink-100 relative">
           <Sparkles className="w-10 h-10 text-red-300 mx-auto mb-4 opacity-50" />
           <p className="text-gray-900 font-bold text-lg">
-            Valentine's Secret Box
+            Aether Valentine Edition
           </p>
           <p className="text-sm text-gray-600 mt-2">
             Spreading love and hidden messages freely

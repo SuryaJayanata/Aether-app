@@ -20,7 +20,7 @@ export default function Hero() {
         >
           ♥
         </motion.span>
-        Share Your Love with Someone :3
+        Share Your Love with People :3
         <motion.span 
           initial={{ scale: 0, rotate: 180 }}
           animate={{ scale: 1, rotate: 0 }}
