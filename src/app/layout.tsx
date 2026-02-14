@@ -30,11 +30,27 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${cinzel.variable} font-sans`}>
-        <AuthProvider>
-          {children}
-        </AuthProvider>
-      </body>
+<body className={`${inter.variable} ${cinzel.variable} font-sans`}>
+  <AuthProvider>
+    {children}
+  </AuthProvider>
+
+  <script
+    dangerouslySetInnerHTML={{
+      __html: `
+        const originalTitle = document.title;
+        document.addEventListener("visibilitychange", function () {
+          if (document.hidden) {
+            document.title = "come back pls :(";
+          } else {
+            document.title = originalTitle;
+          }
+        });
+      `,
+    }}
+  />
+</body>
+
     </html>
   )
 }
